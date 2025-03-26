@@ -5,6 +5,7 @@ import ArticlesPage from "@/pages/articles/ListArticlePage";
 import ArticleDraftPage from "@/pages/articles/drafts/ArticleDraftPage";
 import ArticlePublishedPage from "@/pages/articles/published/ArticlePublished";
 import ArticleScheduledPage from "@/pages/articles/scheduled/ArticleSchedulePage";
+import CategoriesPage from "@/pages/categories/CategoriesPage";
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -34,6 +35,12 @@ const routes = createBrowserRouter([
         path: "/dashboard/articles/scheduled",
         element: <DashboardLayout>
             <ArticleScheduledPage />
+        </DashboardLayout>
+    },
+    {
+        path: "/dashboard/categories",
+        element: <DashboardLayout>
+            <CategoriesPage />
         </DashboardLayout>
     }   
 ])
