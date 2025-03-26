@@ -28,7 +28,13 @@ const routes = createBrowserRouter([
         element: <DashboardLayout>
             <ArticlePublishedPage />
         </DashboardLayout>
-    }
+    },
+    {
+        path: "/dashboard/articles/scheduled",
+        element: <DashboardLayout>
+            <ArticleScheduledPage />
+        </DashboardLayout>
+    }   
 ])
 
 export default routes;
