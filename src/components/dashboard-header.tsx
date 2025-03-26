@@ -12,8 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useNavigate } from "react-router-dom"
 
 export function DashboardHeader() {
+  const navigate = useNavigate()
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <SidebarTrigger />
@@ -46,7 +48,7 @@ export function DashboardHeader() {
           <DropdownMenuItem>Article "IA et avenir" a atteint 1000 vues</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button>Nouvel Article</Button>
+      <Button onClick={() => navigate("/dashboard/articles/new")}>Nouvel Article</Button>
     </header>
   )
 }

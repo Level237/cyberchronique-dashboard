@@ -58,6 +58,7 @@ const menuItems = [
       { title: "Brouillons", href: "/dashboard/articles/drafts" },
       { title: "Publiés", href: "/dashboard/articles/published" },
       { title: "Programmés", href: "/dashboard/articles/scheduled" },
+      { title: "Nouvel article", href: "/dashboard/articles/new" },
     ],
   },
   {

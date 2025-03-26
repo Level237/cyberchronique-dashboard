@@ -7,6 +7,7 @@ import ArticlePublishedPage from "@/pages/articles/published/ArticlePublished";
 import ArticleScheduledPage from "@/pages/articles/scheduled/ArticleSchedulePage";
 import CategoriesPage from "@/pages/categories/CategoriesPage";
 import CommentsPage from "@/pages/comments/commentsPage";
+import NewArticlePage from "@/pages/articles/NewArticlePage";
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -49,7 +50,12 @@ const routes = createBrowserRouter([
         element: <DashboardLayout>
             <CommentsPage />
         </DashboardLayout>
-    }   
+    },
+    {
+        path: "/dashboard/articles/new",
+        element: <NewArticlePage />
+        
+    }
 ])
 
 export default routes;
