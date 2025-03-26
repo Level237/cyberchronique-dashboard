@@ -4,6 +4,7 @@ import DashboardLayout from "../pages/layouts/DashboardLayout";
 import ArticlesPage from "@/pages/articles/ListArticlePage";
 import ArticleDraftPage from "@/pages/articles/drafts/ArticleDraftPage";
 import ArticlePublishedPage from "@/pages/articles/published/ArticlePublished";
+import ArticleScheduledPage from "@/pages/articles/scheduled/ArticleSchedulePage";
 const routes = createBrowserRouter([
     {
         path: "/",

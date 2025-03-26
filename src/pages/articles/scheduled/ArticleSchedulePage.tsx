@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/card"
 import { CalendarDateRangePicker } from "@/components/date-range-picker"
 
-export default function ScheduledPage() {
+export default function ArticleScheduledPage() {
   return (
     <SidebarInset className="bg-slate-50">
       <DashboardHeader />
