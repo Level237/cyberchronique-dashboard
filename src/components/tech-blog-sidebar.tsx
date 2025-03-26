@@ -47,7 +47,7 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboard",
+    href: "/",
   },
   {
     title: "Articles",
