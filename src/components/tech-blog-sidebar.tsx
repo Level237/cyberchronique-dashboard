@@ -1,6 +1,10 @@
+"use client"
 
+import * as React from "react"
 import {
   BarChart3,
+  ChevronDown,
+  ChevronRight,
   FileText,
   LayoutDashboard,
   MessageSquare,
@@ -12,6 +16,7 @@ import {
 } from "lucide-react"
 import { useLocation } from "react-router-dom"
 
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
@@ -88,16 +93,40 @@ const menuItems = [
 ]
 
 export function TechBlogSidebar() {
-  const pathname = useLocation()
+    const pathname = useLocation()
+
+  // État pour suivre quels menus sont ouverts
+  const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>(() => {
+    // Par défaut, ouvrir le menu qui contient le chemin actuel
+    const initialState: Record<string, boolean> = {}
+    menuItems.forEach((item) => {
+      if (item.submenu && (pathname.pathname === item.href || item.submenu.some((sub) => pathname.pathname === sub.href))) {
+        initialState[item.title] = true
+      }
+    })
+    return initialState
+  })
+
+  // Fonction pour basculer l'état d'un menu
+  const toggleMenu = (title: string) => {
+    setOpenMenus((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }))
+  }
 
   return (
-    <Sidebar variant="floating" collapsible="icon">
-      <SidebarHeader className="border-b border-border/50">
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      className="bg-gradient-to-b from-sidebar to-sidebar-accent border-r border-border/10"
+    >
+      <SidebarHeader className="border-b border-border/10">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <a href="/dashboard" className="flex items-center gap-2">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg">
                   <PenTool className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
@@ -116,22 +145,47 @@ export function TechBlogSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname.pathname === item.href} tooltip={item.title}>
-                    <a href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                  {item.submenu && (
-                    <SidebarMenuSub>
-                      {item.submenu.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild isActive={pathname.pathname === subItem.href}>
-                            <a href={subItem.href}>{subItem.title}</a>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
+                  {item.submenu ? (
+                    <Collapsible
+                      open={openMenus[item.title]}
+                      onOpenChange={() => toggleMenu(item.title)}
+                      className="w-full"
+                    >
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                          className="w-full justify-between group"
+                          isActive={pathname.pathname === item.href || item.submenu.some((sub) => pathname.pathname === sub.href)}
+                        >
+                          <div className="flex items-center">
+                            <item.icon className="size-4 mr-2" />
+                            <span>{item.title}</span>
+                          </div>
+                          {openMenus[item.title] ? (
+                            <ChevronDown className="size-4 transition-transform" />
+                          ) : (
+                            <ChevronRight className="size-4 transition-transform" />
+                          )}
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.submenu.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.title}>
+                              <SidebarMenuSubButton asChild isActive={pathname.pathname === subItem.href}>
+                                <a href={subItem.href}>{subItem.title}</a>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ) : (
+                    <SidebarMenuButton asChild isActive={pathname.pathname === item.href} tooltip={item.title}>
+                      <a href={item.href}>
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
                   )}
                 </SidebarMenuItem>
               ))}
@@ -139,13 +193,13 @@ export function TechBlogSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-border/50 p-2">
+      <SidebarFooter className="border-t border-border/10 p-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-full justify-start px-2">
-              <Avatar className="h-8 w-8 mr-2">
+            <Button variant="ghost" className="w-full justify-start px-2 hover:bg-sidebar-accent">
+              <Avatar className="h-8 w-8 mr-2 ring-2 ring-primary/20">
                 <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Avatar" />
-                <AvatarFallback>AD</AvatarFallback>
+                <AvatarFallback className="bg-primary/10 text-primary">AD</AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start text-sm">
                 <span className="font-medium">Admin</span>
